@@ -52,3 +52,21 @@ export const update = async(req, res) => {
         res.status(500).json({error: "Internal Server Error"})
     }
 }
+
+//update a record
+export const deleteEmployee = async(req, res) => {
+    try {
+        const id = req.params.id;
+        const employeeExist = await Employees.findOne({_id:id})
+
+        if(!employeeExist) {
+            return res.status(404).json({message: "Employee not found"})
+        }
+
+        await Employees.findByIdAndDelete(id)
+        res.status(201).json({message: "Employee Deleted Successfully"})
+
+    } catch (error) {
+        res.status(500).json({error: "Internal Server Error"})
+    }
+}
